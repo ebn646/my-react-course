@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/christianalfoni/webpack-express-boilerplate.git"
   },
+  "engines": {
+    "node": "7.0.0"
+  },
   "keywords": [
     "express",
     "webpack",
