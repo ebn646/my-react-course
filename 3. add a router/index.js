@@ -1,19 +1,25 @@
-import React         from 'react';
-import { render }     from 'react-dom';
+import React from 'react';
+import { render } from 'react-dom';
 import { browserHistory, Router, Route, IndexRoute, Link, withRouter } from 'react-router'
-import Home          from './app/home.js';
-import Movie          from './app/movie.js';
+import App from './app/app.js'
+import Home from './app/home.js';
+import Movie from './app/movie.js';
 
-class App extends React.Component{
-    render(){
-        return(
-            <Router history={browserHistory}>
-                <Router path={"/"} component={Home}/>
-                <Router path={"movie"} component={Movie}/>
-            </Router>
-        )
-    }
-}
+const NotFound = React.createClass({
+  render() {
+    return <h2>Not found Today</h2>
+  }
+})
 
-render(<App />,document.getElementById('app'))
+render((
+  <Router history={browserHistory}>
+    <Route path={"/"} component={App}>
+    <IndexRoute component={Home}/>
+       <Route path="home" component={Home}/>
+       <Route path="movie/:id" component={Movie}/>
+    </Route>
+    
+  </Router>
+), document.getElementById('app'))
+
 

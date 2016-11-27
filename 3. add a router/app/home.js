@@ -1,5 +1,6 @@
 var React = require('react');
 var axios = require('axios');
+import {browserHistory,Link} from 'react-router'
 
 class Home extends React.Component {
     constructor(){
@@ -20,17 +21,33 @@ class Home extends React.Component {
         })
     }
 
+    handleSearch(e){
+        //http://codepen.io/jackoliver/pen/zBQAWo
+        
+    }
+
     componentDidMound(){
 
     }
 
     render() {
       return (
-         <ul className="list-group">
-          {this.state.movies.map(movie =>{
-            return <li className="list-group-item"><a href="#"><span></span>{movie.original_title}</a></li>;
-          })}
-        </ul>
+            <div>
+             <div className='row'>
+                <form className="navbar-form navbar-left" role="search">
+                    <div className="form-group">
+                        <input type="text" className="form-control" placeholder="Search"/>
+                    </div>
+                    <button type="submit" className="btn btn-default" onClick={this.handleSearch}>Submit</button>
+                </form>
+                </div>
+         
+            <ul className="list-group">
+                {this.state.movies.map(movie =>{
+                    return <li className="list-group-item"><Link to={`/movie/${movie.id}`}><span></span>{movie.original_title}</Link></li>;
+                })}
+            </ul>
+        </div> 
       )
     }
 }
