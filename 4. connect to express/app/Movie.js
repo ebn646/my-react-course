@@ -1,11 +1,22 @@
 import React from 'react'
-import {browserHistory,Link} from 'react-router';
+import {browserHistory,Link} from 'react-router'
+import YouTube from 'react-youtube'
 var axios = require('axios');
+const videoIdA = 'XxVg_s8xAms';
 
 class Movie extends React.Component{
     constructor(props){
         super(props);
-        this.state = { movieInfo: new Object()};
+        this.state = { 
+            movieInfo: new Object(),
+            videoId: '',
+            player: null,
+        };
+
+        this.onReady = this.onReady.bind(this);
+        this.onChangeVideo = this.onChangeVideo.bind(this);
+        this.onPlayVideo = this.onPlayVideo.bind(this);
+        this.onPauseVideo = this.onPauseVideo.bind(this);
     }
 
     componentDidMount(){
@@ -15,14 +26,36 @@ class Movie extends React.Component{
 
         axios.get(url)
         .then((response)=>{
-            console.log(response.data)
+            console.log(response.data.videos.results[0])
             this.setState({
-                movieInfo:response.data
+                movieInfo:response.data,
+                videoId: response.data.videos.results[0].key,
             })
         })
         .catch(function(error){
             console.log(error);
         })
+    }
+
+    onReady(event) {
+        console.log(`YouTube Player object for videoId: "${this.state.videoId}" has been saved to state.`); // eslint-disable-line
+        this.setState({
+        player: event.target,
+        });
+    }
+
+    onPlayVideo() {
+        this.state.player.playVideo();
+    }
+
+    onPauseVideo() {
+        this.state.player.pauseVideo();
+    }
+
+    onChangeVideo() {
+        this.setState({
+        videoId: this.state.videoId === videoIdA ? videoIdB : videoIdA,
+        });
     }
     render(){
         return(
@@ -36,6 +69,9 @@ class Movie extends React.Component{
                 <div className="page-header">
                     <h1>{this.state.movieInfo.original_title}</h1>
                     <small>{this.state.movieInfo.overview}</small>
+                </div>
+                <div className='row'>
+                    <YouTube videoId={this.state.videoId} onReady={this.onReady} />
                 </div>
             </div>
         )
